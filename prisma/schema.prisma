@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+}
+
+model User {
+  id               String   @id @default(cuid())
+  email            String   @unique
+  passwordHash     String?
+  firstName        String?
+  lastName         String?
+  role             UserRole @default(CUSTOMER)
+  refreshTokenHash String?
+
+  cartItems    CartItem[]
+  reservations Reservation[]
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  authAccounts AuthAccount[]
+}
+
+model AuthAccount {
+  id                String       @id @default(cuid())
+  userId            String
+  provider          AuthProvider
+  providerAccountId String
+  email             String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([provider, providerAccountId])
+}
+
+model Dish {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  priceCents  Int
+  active      Boolean @default(true)
+
+  cartItems         CartItem[]
+  reservationDishes ReservationDish[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CartItem {
+  id       String @id @default(cuid())
+  userId   String
+  dishId   String
+  quantity Int    @default(1)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dish Dish @relation(fields: [dishId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, dishId])
+}
+
+model Reservation {
+  id     String            @id @default(cuid())
+  userId String
+  status ReservationStatus @default(PENDING)
+  notes  String?
+
+  user   User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dishes ReservationDish[]
+  pickup Pickup?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ReservationDish {
+  id            String @id @default(cuid())
+  reservationId String
+  dishId        String
+  quantity      Int
+  priceCents    Int
+
+  reservation Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  dish        Dish        @relation(fields: [dishId], references: [id])
+
+  @@unique([reservationId, dishId])
+}
+
+model Pickup {
+  id            String   @id @default(cuid())
+  reservationId String   @unique
+  pickupAt      DateTime
+
+  reservation Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  REJECTED
+}
+
+enum AuthProvider {
+  GOOGLE
+  APPLE
+}
