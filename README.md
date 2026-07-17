@@ -1,4 +1,4 @@
-# Booking Manager API
+# Dishes Booking Manager API
 
 Backend API for managing dishes, carts, reservations, and pickups.
 
