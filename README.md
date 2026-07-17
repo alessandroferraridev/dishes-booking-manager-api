@@ -75,7 +75,7 @@ pnpm install
 Create a `.env` file in the project root.
 
 ```env
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/booking_api?schema=public"
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/dishes_booking_manager_api?schema=public"
 
 JWT_ACCESS_SECRET="change-me-access-secret"
 JWT_REFRESH_SECRET="change-me-refresh-secret"

@@ -22,7 +22,7 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('Booking Manager API')
+    .setTitle('Dishes Booking Manager API')
     .setDescription('Manage your dish bookings and pickups')
     .setVersion('1.0')
     .addCookieAuth('access_token')
