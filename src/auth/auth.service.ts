@@ -55,10 +55,11 @@ async function verifyAppleIdToken(idToken: string, audience: string) {
 
 @Injectable()
 export class AuthService {
+  private readonly googleClient = new OAuth2Client();
+
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-    private readonly googleClient = new OAuth2Client(),
   ) {}
 
   private async createSession(user: User) {
