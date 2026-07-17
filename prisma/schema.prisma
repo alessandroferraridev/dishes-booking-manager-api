@@ -15,12 +15,12 @@ model User {
   role             UserRole @default(CUSTOMER)
   refreshTokenHash String?
 
+  accounts     AuthAccount[]
   cartItems    CartItem[]
   reservations Reservation[]
 
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  authAccounts AuthAccount[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model AuthAccount {
