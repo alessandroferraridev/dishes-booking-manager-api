@@ -27,7 +27,6 @@ async function bootstrap() {
     .setTitle('Dishes Booking Manager API')
     .setDescription('Manage your dish bookings and pickups')
     .setVersion('1.0')
-    .addCookieAuth('access_token')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -38,6 +37,9 @@ async function bootstrap() {
       'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.17.14/swagger-ui-bundle.min.js',
       'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.17.14/swagger-ui-standalone-preset.min.js',
     ],
+    swaggerOptions: {
+      withCredentials: true,
+    },
   });
 
   await app.listen(process.env.PORT ?? 3000);

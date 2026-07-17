@@ -8,13 +8,13 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { ApiCookieAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { type Request, type Response } from 'express';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/current-user.decorator';
 import { AppleLoginDto, GoogleLoginDto, LoginDto, RegisterDto } from './dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { type AuthenticatedUser } from './strategies/jwt.strategy';
-import { CurrentUser } from './decorators/current-user.decorator';
 
 type AuthCookiePayload = {
   accessToken: string;
@@ -130,7 +130,6 @@ export class AuthController {
 
   @Get('me')
   @UseGuards(JwtAuthGuard)
-  @ApiCookieAuth('access_token')
   @ApiOperation({ summary: 'Return current authenticated user' })
   me(@CurrentUser() user: AuthenticatedUser) {
     return {
