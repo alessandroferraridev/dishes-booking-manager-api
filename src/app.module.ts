@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { DishesModule } from './dishes/dishes.module';
 import { CartModule } from './cart/cart.module';
 import { ReservationsModule } from './reservations/reservations.module';
+import { PickupsModule } from './pickups/pickups.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ReservationsModule } from './reservations/reservations.module';
     DishesModule,
     CartModule,
     ReservationsModule,
+    PickupsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
